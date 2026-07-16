@@ -1,0 +1,18 @@
+<div class="flex items-center">
+    <div class="flex items-center mr-2">
+        @for (star of starArray(); track $index) {
+            <mat-icon
+                class="!text-lg !text-yellow-400"
+                [inline]="true">
+            {{star === 'full' ? 'star' : star === 'half'
+                                              ? 'star_half'
+                                              : 'star_border'
+            }}
+            </mat-icon>
+        }
+    </div>
+
+    <span class="text-sm text-gray-500">
+        <ng-content></ng-content>
+    </span>
+</div>

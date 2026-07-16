@@ -1,0 +1,39 @@
+<mat-sidenav-container>
+    <mat-sidenav mode="side" opened="true">
+        <div class="p-6">
+            <h2 class="text-lg text-gray-900">Categories</h2>
+            <mat-nav-list>
+                @for (cat of categories(); track cat) {
+                    <mat-list-item [activated]="cat === category()" class="my-2" [routerLink]="['/products', cat]">
+                        <span matListItemTitle [class]="cat === category() ? '!text-white': null">
+                            {{cat}}
+                        </span>
+                    </mat-list-item>
+                }
+            </mat-nav-list>
+        </div>
+    </mat-sidenav>
+    <mat-sidenav-content class="bg-gray-100 p-6 h-full">
+    <h1 class="text-2xl font-bold text-gray-900 mb-1 capitalize">{{category()}}</h1>
+    <p class="text-base text-gray-600 mb-6">
+        {{store.filtredProducts().length}} products found
+    </p>
+
+    <div class="responsive-grid">
+        @for (product of store.filtredProducts(); track product.id) {
+            <app-product-card [product]="product">
+                <app-toggle-wishlist-button 
+                    class="!absolute z-10 top-3 right-3 shadow-md rounded-md transition-all duration-200 hover:scale-110 hover:shadow-lg !bg-white" 
+                    [product]="product" 
+                    [style.view-transition-name]="'wishlist-button' + product.id"
+                    />
+            </app-product-card>
+        }
+    </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>
+
+<div class="bg-gray-100 p-6 h-full">
+    
+</div>
+

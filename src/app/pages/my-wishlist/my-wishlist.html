@@ -1,0 +1,42 @@
+<div class="mx-auto max-w-[1200px] py-6 px-4">
+    
+    <app-back-button class="mb-6" navigateTo="/products/all"> Continue Shopping </app-back-button>
+
+    @if (store.wishlistCount() > 0) {
+
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-bold">My Wishlist</h1>
+            <span class="text-gray-500 text-xl">
+                {{store.wishlistCount()}} items
+            </span>
+        </div>
+
+        <div class="responsive-grid">
+            @for (product of store.wishlistItems(); track product.id) {
+                <app-product-card [product]="product">
+                    <!--<app-toggle-wishlist-button class="!absolute top-3 right-3" [product]="product" />-->
+                    <button matIconButton 
+                            class="!absolute top-3 right-3 shadow-md duration-200 hover:scale-110 hover:shadow-lg !bg-white" 
+                            (click)="store.removeFromWishlist(product)"
+                            >
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </app-product-card>
+            }
+        </div>
+
+        <div class="mt-8 flex justify-center">
+            <button matButton="outlined" class="danger" (click)="store.clearWishlist()">
+                Clear Wishlist
+            </button>
+        </div>
+
+    }
+        
+    @else{
+
+        <app-empty-wishlist/>
+
+    }
+
+</div>
