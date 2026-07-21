@@ -22,7 +22,7 @@
                 <ng-container actionButtons>
                     <button  matButton="filled" class="w-full mt-6 py-3" 
                         [disabled]="store.loading()"
-                        (click)="store.placeOrder()"
+                        (click)="placeOrder()"
                         >
                         {{ store.loading() ? 'Processing...' : 'Place Order' }}
                     </button>

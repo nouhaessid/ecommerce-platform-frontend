@@ -1,6 +1,6 @@
 import { computed, inject } from "@angular/core";
 import { Product } from "./models/product";
-import { patchState, signalMethod, signalStore, withComputed, withMethods, withState } from "@ngrx/signals"
+import { patchState, signalMethod, signalStore, withComputed, withHooks, withMethods, withState } from "@ngrx/signals"
 import { produce } from "immer"
 import { Toaster } from "./services/toaster";
 import { CartItem } from "./models/cart-item";
@@ -11,6 +11,9 @@ import { Router } from "@angular/router";
 import { Order } from "./models/order";
 import { withStorageSync} from "@angular-architects/ngrx-toolkit"
 import { AddReviewParams, UserReview } from "./models/user-review";
+import { loadCart, loadWishlist, loadUser, saveCart, saveWishlist, saveUser } from './storage/storage-sync';
+import { effect } from '@angular/core';
+
 
 
 export type EcommerceState= {
@@ -21,7 +24,9 @@ export type EcommerceState= {
     user: User | undefined;
     loading: boolean;
     selectedProductId: string | undefined;
-    writeReview: boolean
+    writeReview: boolean;
+    sidenavOpen: boolean;
+    searchQuery: string;
 }
 
 export const EcommerceStore = signalStore(
@@ -40,7 +45,7 @@ export const EcommerceStore = signalStore(
     rating: 4.5,
     reviewCount: 7,
     inStock: true,
-    category: 'Electronics',
+    category: 'electronics',
     reviews: [
       {
         id: 'r1',
@@ -123,7 +128,7 @@ export const EcommerceStore = signalStore(
     rating: 4.2,
     reviewCount: 4,
     inStock: true,
-    category: 'Electronics',
+    category: 'electronics',
     reviews: [
       {
         id: 'r8',
@@ -176,7 +181,7 @@ export const EcommerceStore = signalStore(
     rating: 3.9,
     reviewCount: 3,
     inStock: false,
-    category: 'Electronics',
+    category: 'electronics',
     reviews: [
       {
         id: 'r12',
@@ -221,7 +226,7 @@ export const EcommerceStore = signalStore(
     rating: 4.7,
     reviewCount: 4,
     inStock: true,
-    category: 'Clothing',
+    category: 'clothing',
     reviews: [
       {
         id: 'r15',
@@ -274,7 +279,7 @@ export const EcommerceStore = signalStore(
     rating: 4.1,
     reviewCount: 3,
     inStock: true,
-    category: 'Clothing',
+    category: 'clothing',
     reviews: [
       {
         id: 'r19',
@@ -309,7 +314,7 @@ export const EcommerceStore = signalStore(
     ]
   },
 
-  // --- Home & Garden ---
+  // --- Home ---
   {
     id: 'p6',
     name: 'LED Desk Lamp',
@@ -319,7 +324,7 @@ export const EcommerceStore = signalStore(
     rating: 4.3,
     reviewCount: 3,
     inStock: true,
-    category: 'Home & Garden',
+    category: 'home',
     reviews: [
       {
         id: 'r22',
@@ -362,7 +367,7 @@ export const EcommerceStore = signalStore(
     rating: 4.6,
     reviewCount: 3,
     inStock: true,
-    category: 'Home & Garden',
+    category: 'home',
     reviews: [
       {
         id: 'r25',
@@ -405,7 +410,7 @@ export const EcommerceStore = signalStore(
     rating: 3.8,
     reviewCount: 3,
     inStock: false,
-    category: 'Home & Garden',
+    category: 'home',
     reviews: [
       {
         id: 'r28',
@@ -440,7 +445,7 @@ export const EcommerceStore = signalStore(
     ]
   },
 
-  // --- Sports & Leisure ---
+  // --- Sports ---
   {
     id: 'p9',
     name: 'Non-Slip Yoga Mat',
@@ -450,7 +455,7 @@ export const EcommerceStore = signalStore(
     rating: 4.4,
     reviewCount: 3,
     inStock: true,
-    category: 'Sports & Leisure',
+    category: 'sports',
     reviews: [
       {
         id: 'r31',
@@ -493,7 +498,7 @@ export const EcommerceStore = signalStore(
     rating: 4.0,
     reviewCount: 3,
     inStock: true,
-    category: 'Sports & Leisure',
+    category: 'sports',
     reviews: [
       {
         id: 'r34',
@@ -535,25 +540,65 @@ export const EcommerceStore = signalStore(
         loading: false,
         selectedProductId: undefined,
         writeReview: false,
+        sidenavOpen: false, 
+        searchQuery: ''
     } as EcommerceState),
 
-    withStorageSync({ key: 'ecommerce', select: ({wishlistItems, cartItems, user}) => ({ wishlistItems, cartItems, user }) }),
+    withHooks({
+      onInit(store) {
 
-    withComputed(({category, products, wishlistItems, cartItems, selectedProductId}) => ({
+        patchState(store, {
+        cartItems: loadCart(),
+        wishlistItems: loadWishlist(),
+        user: loadUser()
+      });
+
+
+      effect(() => {
+        saveCart(store.cartItems());
+      });
+
+
+      effect(() => {
+        saveWishlist(store.wishlistItems());
+      });
+
+
+      effect(() => {
+        saveUser(store.user());
+      });
+
+    }
+  }),
+    //withStorageSync({ key: 'ecommerce', select: ({wishlistItems, cartItems, user}) => ({ wishlistItems, cartItems, user }) }),
+
+    withComputed(({category, searchQuery, products, wishlistItems, cartItems, selectedProductId}) => ({
         filtredProducts: computed(()=> {
-            if (category().toLocaleLowerCase() === 'all') return  products()
-            return products().filter(p => p.category.toLocaleLowerCase() === category().toLowerCase())
+            let filtered = products()
+            if (category() !== 'all'){
+              filtered = filtered.filter(p => p.category === category())
+            }
+            // Filter by search
+            const query = searchQuery().trim().toLowerCase();
+
+            if (query){
+              filtered = filtered.filter(p => p.name.toLowerCase().includes(query) || p.description.toLowerCase().includes(query))
+            }
+            return filtered;
           }),
         wishlistCount: computed(() => wishlistItems().length),
         cartItemsCount: computed(() => cartItems().reduce((acc, item) => acc + item.quantity, 0)),
-        selectedProduct: computed(() => products().find((p) => p.id === selectedProductId()))
+        selectedProduct: computed(() => products().find((p) => p.id === selectedProductId())),
+        
     })),
 
     withMethods((store, toaster = inject(Toaster), matDialog = inject(MatDialog), router = inject(Router)) => ({
       setCategory: signalMethod<string>((category: string) =>{
         patchState(store, {category})
       }),
-
+      setSearchQuery: signalMethod<string>((query:string) => {
+        patchState(store, {searchQuery: query});
+      }), 
       setProductId: signalMethod<string>((productId: string) => {
         patchState(store, {selectedProductId : productId})
       }),
@@ -630,17 +675,23 @@ export const EcommerceStore = signalStore(
       },
 
       proceedToCheckout: () => {
-        if (!store.user()){
-        matDialog.open(SignInDialog, {
-          disableClose: true,
-          data: {
-            checkout : true
-            }
-          })
+
+        if (store.cartItems().length === 0) {
+          toaster.error('Your cart is empty');
           return;
         }
-        router.navigate(['/checkout'])
-        
+      
+        if (!store.user()) {
+          matDialog.open(SignInDialog, {
+            disableClose: true,
+            data: {
+              checkout: true
+            }
+          });
+          return;
+        }
+      
+        router.navigate(['/checkout']);
       },
 
       signIn: ({email, password, checkout, dialogId}: SignInParams) => {
@@ -659,8 +710,15 @@ export const EcommerceStore = signalStore(
           }
       },
       signOut: () => {
-        patchState(store, {user: undefined})
-        //router.navigate()
+        const currentUrl = router.url;      
+
+        patchState(store, {
+          user: undefined,
+        });
+
+        if (currentUrl.startsWith('/checkout') ||currentUrl.startsWith('/order-success')) {
+          router.navigate(['/products/all']);
+        }
       },
       
       signUp: ({name, email, password, checkout, dialogId}: SignUpParams) => {
@@ -744,6 +802,10 @@ export const EcommerceStore = signalStore(
 
         patchState(store, {loading: false, products: updatedProducts, writeReview: false})
         
+      },
+
+      toggleSideNav(){
+        patchState(store, { sidenavOpen: !store.sidenavOpen() })
       }
 
     }))

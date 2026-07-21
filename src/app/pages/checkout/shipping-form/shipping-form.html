@@ -4,40 +4,72 @@
         Shipping Information
     </h2>
 
-    <form class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+    <form
+        [formGroup]="shippingForm"
+        class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+
+        <mat-form-field appearance="outline">
             <mat-label>First Name</mat-label>
-            <input matInput type="text">
+            <input matInput formControlName="firstName">
+
+            @if (shippingForm.controls.firstName.hasError('required')) {
+                <mat-error>First name is required.</mat-error>
+            }
         </mat-form-field>
-    
-        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+
+        <mat-form-field appearance="outline">
             <mat-label>Last Name</mat-label>
-            <input matInput type="text">
+            <input matInput formControlName="lastName">
+
+            @if (shippingForm.controls.lastName.hasError('required')) {
+                <mat-error>Last name is required.</mat-error>
+            }
         </mat-form-field>
-    
-        <mat-form-field class="lg:col-span-2" appearance="outline" subscriptSizing="dynamic">
+
+        <mat-form-field class="lg:col-span-2" appearance="outline">
             <mat-label>Street Address</mat-label>
-            <textarea matInput rows="3"></textarea>
+            <textarea matInput rows="3" formControlName="streetAddress"></textarea>
+
+            @if (shippingForm.controls.streetAddress.hasError('required')) {
+                <mat-error>Street address is required.</mat-error>
+            }
         </mat-form-field>
-    
-        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+
+        <mat-form-field appearance="outline">
             <mat-label>City</mat-label>
-            <input matInput type="text">
+            <input matInput formControlName="city">
+
+            @if (shippingForm.controls.city.hasError('required')) {
+                <mat-error>City is required.</mat-error>
+            }
         </mat-form-field>
-    
-        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+
+        <mat-form-field appearance="outline">
             <mat-label>State / Province</mat-label>
-            <input matInput type="text">
+            <input matInput formControlName="state">
+
+            @if (shippingForm.controls.state.hasError('required')) {
+                <mat-error>State is required.</mat-error>
+            }
         </mat-form-field>
 
-        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-form-field appearance="outline">
             <mat-label>ZIP / Postal Code</mat-label>
-            <input matInput type="text">
+            <input matInput formControlName="zipCode">
+
+            @if (shippingForm.controls.zipCode.hasError('required')) {
+                <mat-error>ZIP code is required.</mat-error>
+            }
         </mat-form-field>
 
-        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-form-field appearance="outline">
             <mat-label>Country</mat-label>
-            <input matInput type="text">
+            <input matInput formControlName="country">
+
+            @if (shippingForm.controls.country.hasError('required')) {
+                <mat-error>Country is required.</mat-error>
+            }
         </mat-form-field>
+
     </form>
 </div>

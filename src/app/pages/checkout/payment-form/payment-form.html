@@ -17,38 +17,79 @@
         </div>
     </div>
     
-    <form class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+    <form [formGroup]="paymentForm" class="grid grid-cols-1 lg:grid-cols-2 gap-4">
 
-        <mat-form-field class="lg:col-span-2" appearance="outline" subscriptSizing="dynamic">
+        <mat-form-field class="lg:col-span-2" appearance="outline">
             <mat-label>Card Number</mat-label>
+
             <input
                 matInput
-                type="text"
-                placeholder="1234 5678 9012 3456">
+                formControlName="cardNumber"
+                placeholder="1234567812345678">
+
             <mat-icon matPrefix>credit_card</mat-icon>
+
+            @if (paymentForm.controls.cardNumber.hasError('required')) {
+                <mat-error>Card number is required.</mat-error>
+            }
+
+            @if (paymentForm.controls.cardNumber.hasError('pattern')) {
+                <mat-error>Card number must contain 16 digits.</mat-error>
+            }
+
         </mat-form-field>
 
-        <mat-form-field class="lg:col-span-2" appearance="outline" subscriptSizing="dynamic">
+        <mat-form-field class="lg:col-span-2" appearance="outline">
             <mat-label>Cardholder Name</mat-label>
-            <input matInput type="text">
-            <mat-icon matPrefix>person</mat-icon>
-        </mat-form-field>
 
-        <mat-form-field appearance="outline" subscriptSizing="dynamic">
-            <mat-label>Expiry Date</mat-label>
             <input
                 matInput
-                type="text"
-                placeholder="MM / YY">
+                formControlName="cardholderName">
+
+            <mat-icon matPrefix>person</mat-icon>
+
+            @if (paymentForm.controls.cardholderName.hasError('required')) {
+                <mat-error>Cardholder name is required.</mat-error>
+            }
+
         </mat-form-field>
 
-        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-form-field appearance="outline">
+            <mat-label>Expiry Date</mat-label>
+
+            <input
+                matInput
+                formControlName="expiryDate"
+                placeholder="MM/YY">
+
+            @if (paymentForm.controls.expiryDate.hasError('required')) {
+                <mat-error>Expiry date is required.</mat-error>
+            }
+
+            @if (paymentForm.controls.expiryDate.hasError('pattern')) {
+                <mat-error>Use MM/YY format.</mat-error>
+            }
+
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
             <mat-label>CVV</mat-label>
+
             <input
                 matInput
                 type="password"
+                formControlName="cvv"
                 placeholder="123">
+
+            @if (paymentForm.controls.cvv.hasError('required')) {
+                <mat-error>CVV is required.</mat-error>
+            }
+
+            @if (paymentForm.controls.cvv.hasError('pattern')) {
+                <mat-error>CVV must be 3 or 4 digits.</mat-error>
+            }
+
         </mat-form-field>
 
-    </form>
+</form>
 </div>

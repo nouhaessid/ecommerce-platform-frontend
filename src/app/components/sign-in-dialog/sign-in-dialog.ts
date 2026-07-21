@@ -3,7 +3,7 @@ import { MatIconButton, MatButton } from "@angular/material/button";
 import { MatIcon } from '@angular/material/icon';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogClose, MatDialogRef } from '@angular/material/dialog'
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatFormField, MatPrefix, MatSuffix } from '@angular/material/form-field'
+import { MatError, MatFormField, MatPrefix, MatSuffix } from '@angular/material/form-field'
 import { MatInput } from '@angular/material/input'
 import { EcommerceStore } from '../../ecommerce-store';
 import { SignInParams } from '../../models/user';
@@ -13,7 +13,7 @@ import Checkout from '../../pages/checkout/checkout';
 
 @Component({
   selector: 'app-sign-in-dialog',
-  imports: [MatIconButton, MatIcon, MatDialogClose, MatFormField, MatInput, MatSuffix, MatPrefix, MatButton, ReactiveFormsModule],
+  imports: [MatIconButton, MatIcon, MatDialogClose, MatFormField, MatInput, MatSuffix, MatPrefix, MatButton, ReactiveFormsModule, MatError],
   templateUrl: './sign-in-dialog.html',
   styleUrl: './sign-in-dialog.scss',
 })
@@ -28,10 +28,23 @@ export class SignInDialog {
 
   matDialog = inject(MatDialog)
 
+
   signInForm = this.fb.group({
-    email: ['JohnDoe@test.com', Validators.required],
-    password: ['test123', Validators.required]
-  })
+    email: [
+      '',
+      [
+        Validators.required,
+        Validators.email
+      ]
+    ],
+    password: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(6)
+      ]
+    ]
+  });
 
   passwordVisible = signal(false)
 

@@ -6,6 +6,7 @@ import { SummarizeOrder } from '../../components/summarize-order/summarize-order
 import { EcommerceStore } from '../../ecommerce-store';
 import { CurrencyPipe } from '@angular/common';
 import { MatButton } from "@angular/material/button";
+import { CheckoutService } from '../../services/checkoutService';
 
 @Component({
   selector: 'app-checkout',
@@ -15,4 +16,16 @@ import { MatButton } from "@angular/material/button";
 })
 export default class Checkout {
     store = inject(EcommerceStore)
+    checkout = inject(CheckoutService);
+    
+    placeOrder() {
+
+      if (this.checkout.shippingForm.invalid || this.checkout.paymentForm.invalid) {
+        this.checkout.shippingForm.markAllAsTouched();
+        this.checkout.paymentForm.markAllAsTouched();
+        return;
+      }
+    
+      this.store.placeOrder();
+    }
 }
