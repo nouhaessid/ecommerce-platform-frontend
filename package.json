@@ -27,6 +27,8 @@
     "@ngxpert/hot-toast": "^6.3.0",
     "express": "^5.1.0",
     "immer": "^11.1.8",
+    "keycloak-angular": "^21.0.0",
+    "keycloak-js": "^26.2.4",
     "rxjs": "~7.8.0",
     "tailwindcss": "^4.3.1",
     "tslib": "^2.3.0"

@@ -1,0 +1,14 @@
+.active-admin-link {
+  background-color: color-mix(
+    in srgb,
+    var(--mat-sys-primary) 5%,
+    transparent
+  );
+
+  color: var(--mat-sys-primary);
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+.active-admin-link mat-icon {
+  color: var(--mat-sys-primary);
+}

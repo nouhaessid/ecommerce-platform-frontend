@@ -1,0 +1,211 @@
+<div class="space-y-6">
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+            <h1 class="text-2xl font-semibold text-gray-900">Products</h1>
+
+            <p class="mt-1 text-sm text-gray-500">
+                Manage your products, prices, stock and categories.
+            </p>
+        </div>
+
+        <button
+            matButton="filled"
+            type="button"
+            (click)="addProduct()"
+            class="flex items-center gap-2 cursor-pointer"
+        >
+            <mat-icon class="small">add</mat-icon>
+            <span>Add Product</span>
+        </button>
+
+    </div>
+
+
+    <!-- FILTER BAR -->
+
+    <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="flex flex-col gap-4 sm:flex-row">
+            <div class="flex-1">
+                <label for="product-search"
+                    class="block text-sm font-medium text-gray-700 mb-1">Search</label>
+
+                <input
+                    id="product-search"
+                    type="text"
+                    placeholder="Search products..."
+                    [value]="searchQuery()"
+                    (input)="onSearchChange($event)"
+                    class="w-full h-10 px-3 border border-gray-300 rounded-md outline-none text-sm
+                           focus:border-[var(--mat-sys-primary)]
+                           focus:ring-2 focus:ring-[var(--mat-sys-primary)]/10"
+                />
+
+            </div>
+
+            <div class="sm:w-52">
+
+                <label for="category-filter"
+                        class="block text-sm font-medium text-gray-700 mb-1">
+                        Category
+                    </label>
+                <mat-form-field appearance="outline" class="!w-full">
+                
+                    <mat-select
+                        [value]="selectedCategoryId()"
+                        (selectionChange)="onCategoryChange($event)"
+                        panelClass="admin-category-panel"
+                    >
+                        <mat-option [value]="0">
+                            All categories
+                        </mat-option>
+                    
+                        @for (category of categories; track category.id) {
+                            <mat-option [value]="category.id">
+                                {{ category.name }}
+                            </mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+            
+            </div>
+        </div>
+    </div>
+
+
+    <!-- TABLE -->
+
+    <div class="bg-white border border-gray-200 rounded-lg overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                    <tr>
+                        <th class="px-5 py-3 text-left font-semibold text-gray-600">
+                            ID
+                        </th>
+
+                        <th class="px-5 py-3 text-left font-semibold text-gray-600">
+                            Product
+                        </th>
+
+                        <th class="px-5 py-3 text-left font-semibold text-gray-600">
+                            Price
+                        </th>
+
+                        <th class="px-5 py-3 text-left font-semibold text-gray-600">
+                            Quantity
+                        </th>
+
+                        <th class="px-5 py-3 text-left font-semibold text-gray-600">
+                            Category
+                        </th>
+
+                        <th class="px-5 py-3 text-right font-semibold text-gray-600">
+                            Actions
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody class="divide-y divide-gray-100">
+
+                    @for (product of filteredProducts(); track product.id) {
+
+                        <tr class="hover:bg-gray-50 transition-colors">
+
+                            <td class="px-5 py-4 text-gray-500">
+                                #{{ product.id }}
+                            </td>
+
+                            <td class="px-5 py-4">
+
+                                <span class="font-medium text-gray-900">
+                                    {{ product.name }}
+                                </span>
+
+                            </td>
+
+                            <td class="px-5 py-4 text-gray-700">
+                                ${{ product.price.toFixed(2) }}
+                            </td>
+
+                            <td class="px-5 py-4">
+                                <span
+                                    class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium"
+                                    [class.bg-green-50]="product.availableQuantity > 10"
+                                    [class.text-green-700]="product.availableQuantity > 10"
+                                    [class.bg-orange-50]="product.availableQuantity > 0 && product.availableQuantity <= 10"
+                                    [class.text-orange-700]="product.availableQuantity > 0 && product.availableQuantity <= 10"
+                                    [class.bg-red-50]="product.availableQuantity === 0"
+                                    [class.text-red-700]="product.availableQuantity === 0"
+                                >
+                                    {{ product.availableQuantity }}
+                                </span>
+                            </td>
+
+                            <td class="px-5 py-4 text-gray-700">
+                                {{ product.categoryName }}
+                            </td>
+
+                            <td class="px-5 py-4">
+                                <div class="flex justify-end gap-1">
+                                    <button
+                                        matIconButton
+                                        class="small transition-transform duration-400 hover:scale-100 hover:-translate-y-0.5"
+                                        aria-label="Edit product"
+                                        title="Edit product"
+                                        type="button"
+                                        (click)="editProduct(product)"
+                                    >
+                                        <mat-icon>edit</mat-icon>
+                                    </button>
+
+                                    <button
+                                        matIconButton
+                                        class="small danger transition-transform duration-400 hover:scale-100 hover:-translate-y-0.5"
+                                        aria-label="Delete product"
+                                        title="Delete product"
+                                        (click)="deleteProduct(product.id)"
+                                    >
+                                        <mat-icon>
+                                            delete
+                                        </mat-icon>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- EMPTY STATE -->
+
+        @if (filteredProducts().length === 0) {
+
+            <div class="px-6 py-16 text-center">
+            
+                <mat-icon class="text-gray-400 !w-10 !h-10 !text-[40px]">
+                    search_off
+                </mat-icon>
+            
+                <h2 class="mt-3 text-lg font-medium text-gray-900">
+                    No products found
+                </h2>
+            
+                <p class="mt-1 text-sm text-gray-500">
+                    Try adjusting your search or category filter.
+                </p>
+            
+                <button
+                    matButton
+                    type="button"
+                    class="mt-4"
+                    (click)="clearFilters()"
+                >
+                    Clear Filters
+                </button>
+            
+            </div>
+        }
+<!---->
+    </div>
+</div>

@@ -4,7 +4,7 @@
             <mat-icon>remove</mat-icon>
         </button>
         <div class="px-3">{{quantity()}}</div>
-        <button matIconButton (click)="qtyUpdated.emit(quantity()+1)">
+        <button matIconButton [disabled]="quantity() === maxQuantity()" (click)="qtyUpdated.emit(quantity()+1)">
             <mat-icon>add</mat-icon>
         </button>
     </div>

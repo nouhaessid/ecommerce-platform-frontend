@@ -1,0 +1,158 @@
+<div class="space-y-6">
+    <div>
+        <h1 class="text-2xl font-semibold text-gray-900">
+            Orders
+        </h1>
+        <p class="mt-1 text-sm text-gray-500">
+            View and manage customer orders.
+        </p>
+    </div>
+
+    <!-- FILTER BAR -->
+
+    <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="flex flex-col gap-4 sm:flex-row">
+            <div class="flex-1">
+                <label
+                    for="order-search"
+                    class="block text-sm font-medium text-gray-700 mb-1"
+                >
+                    Search
+                </label>
+
+                <input
+                    id="order-search"
+                    type="text"
+                    [value]="searchQuery()"
+                    (input)="onSearchChange($event)"
+                    placeholder="Search by order reference..."
+                    class="w-full h-10 px-3 border border-gray-300 rounded-md outline-none text-sm
+                           focus:border-[var(--mat-sys-primary)]
+                           focus:ring-2 focus:ring-[var(--mat-sys-primary)]/10"
+                >
+            </div>
+        </div>
+    </div>
+
+    <!-- TABLE -->
+
+    <div class="bg-white border border-gray-200 rounded-lg overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+                <thead class="bg-gray-50 border-b border-gray-200">
+
+                    <tr>
+
+                        <th class="px-5 py-3 text-left font-semibold text-gray-600">
+                            ID
+                        </th>
+
+                        <th class="px-5 py-3 text-left font-semibold text-gray-600">
+                            Reference
+                        </th>
+
+                        <th class="px-5 py-3 text-left font-semibold text-gray-600">
+                            Customer
+                        </th>
+
+                        <th class="px-5 py-3 text-left font-semibold text-gray-600">
+                            Total
+                        </th>
+
+                        <th class="px-5 py-3 text-left font-semibold text-gray-600">
+                            Created
+                        </th>
+
+                        <th class="px-5 py-3 text-right font-semibold text-gray-600">
+                            Action
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody class="divide-y divide-gray-100">
+
+                    @for (order of filteredOrders(); track order.id) {
+
+                        <tr class="hover:bg-gray-50 transition-colors">
+
+                            <td class="px-5 py-4 text-gray-500">
+                                #{{ order.id }}
+                            </td>
+
+                            <td class="px-5 py-4">
+
+                                <span class="font-medium text-gray-900">
+                                    {{ order.reference }}
+                                </span>
+
+                            </td>
+
+                            <td class="px-5 py-4">
+
+                                <span class="font-mono text-xs text-gray-600">
+                                    {{ order.customerId }}
+                                </span>
+
+                            </td>
+
+                            <td class="px-5 py-4 font-medium text-gray-900">
+                                {{ order.totalAmount | currency:'USD' }}
+                            </td>
+
+                            <td class="px-5 py-4 text-gray-700">
+                                {{ order.createdDate | date:'medium' }}
+                            </td>
+
+                            <td class="px-5 py-4">
+                                <div class="flex justify-end">
+                                    <button
+                                        matButton="outlined"
+                                        type="button"
+                                        (click)="viewOrder(order)"
+                                    >
+                                        <mat-icon>visibility</mat-icon>
+                                        <span>View</span>
+                                        
+                                    </button>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        @if (filteredOrders().length === 0) {
+
+            <div class="px-6 py-16 text-center">
+
+                <mat-icon class="text-gray-400 !w-10 !h-10 !text-[40px]">
+                    shopping_bag
+                </mat-icon>
+
+                <h2 class="mt-3 text-lg font-medium text-gray-900">
+                    No orders found
+                </h2>
+
+                <p class="mt-1 text-sm text-gray-500">
+                    There are no orders to display.
+                </p>
+
+            </div>
+
+        }
+
+    </div>
+
+</div>

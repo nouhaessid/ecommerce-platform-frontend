@@ -1,0 +1,19 @@
+<mat-sidenav-container class="pt-16 min-h-screen">
+
+    <mat-sidenav mode="side" [opened]="store.sidenavOpen()" fixedInViewport [fixedTopGap]="64">
+
+        <app-admin-sidenav />
+
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+
+        <main class="max-w-[1200px] mx-auto w-full p-6">
+
+            <router-outlet />
+
+        </main>
+
+    </mat-sidenav-content>
+
+</mat-sidenav-container>

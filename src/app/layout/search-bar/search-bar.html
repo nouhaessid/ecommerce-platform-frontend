@@ -1,23 +1,28 @@
-<form (ngSubmit)="search(searchInput)">
-  <div class="flex items-center bg-white border border-gray-200 rounded-3xl px-4 py-2 shadow-sm focus-within:ring-1 focus-within:ring-gray-400">
+<div
+  class="flex items-center bg-white border border-gray-200 rounded-3xl px-4 py-2 shadow-sm
+         focus-within:ring-1 focus-within:ring-gray-400"
+>
 
-    <input
-      #searchInput
-      type="text"
-      [value]="store.searchQuery()"
-      placeholder="Search products..."
-      class="flex-1 bg-transparent outline-none text-gray-700 text-sm placeholder-gray-400"
-    />
+  <input
+    #searchInput
+    type="text"
+    [value]="store.searchQuery()"
+    (input)="onSearchInput($event)"
+    (keydown.enter)="search(searchInput)"
+    placeholder="Search products..."
+    class="flex-1 bg-transparent outline-none text-gray-700 text-sm placeholder-gray-400"
+  />
 
-    <button
-      type="button"
-      (click)="store.searchQuery() ? clearSearch(searchInput) : search(searchInput)"
-      class="-m-1  pe-2 pl-2 pt-1 rounded-full
-             hover:bg-gray-100 active:bg-gray-200
-             transition-colors duration-150 cursor-pointer"
-    >
-      <mat-icon class="!w-5 !h-5 !text-gray-700">{{ store.searchQuery() ? 'close' : 'search'}} </mat-icon>
-    </button>
+  <button
+    type="button"
+    (click)="store.searchQuery() ? clearSearch(searchInput) : search(searchInput)"
+    class="-m-1 pe-2 pl-2 pt-1 rounded-full
+           hover:bg-gray-100 active:bg-gray-200
+           transition-colors duration-150 cursor-pointer"
+  >
+    <mat-icon class="!w-5 !h-5 !text-gray-700">
+      {{ store.searchQuery() ? 'close' : 'search' }}
+    </mat-icon>
+  </button>
 
-  </div>
-</form>
+</div>

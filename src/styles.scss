@@ -178,3 +178,43 @@ mat-sidenav {
   grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
   gap: 1rem;
 }
+
+.app-background {
+  min-height: calc(100vh - 64px);
+
+  position: relative;
+  overflow: hidden;
+
+  background-color: #fcf8fc;
+
+  background-image:
+    linear-gradient(
+      135deg,
+      transparent 48%,
+      rgba(169, 0, 169, 0.025) 49%,
+      rgba(169, 0, 169, 0.025) 51%,
+      transparent 52%
+    ),
+    linear-gradient(
+      45deg,
+      transparent 48%,
+      rgba(169, 0, 169, 0.018) 49%,
+      rgba(169, 0, 169, 0.018) 51%,
+      transparent 52%
+    );
+
+  background-size:
+    90px 90px,
+    90px 90px;
+}
+
+.admin-category-panel {
+  .mat-mdc-option {
+    min-height: 36px;
+    font-size: 0.875rem;
+  }
+
+  .mat-mdc-option .mdc-list-item__primary-text {
+    font-size: 0.875rem;
+  }
+}

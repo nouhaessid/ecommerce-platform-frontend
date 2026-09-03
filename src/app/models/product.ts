@@ -1,14 +1,12 @@
-import { UserReview } from "./user-review"
-
 export type Product = {
-    id: string
-    name: string
-    description: string
-    price: number
-    imageUrl: string
-    rating: number
-    reviewCount: number
-    inStock: boolean
-    category: string
-    reviews: UserReview[]
+  id: number
+  name: string
+  description: string
+  availableQuantity: number
+  price: number
+  imageUrl: string
+  categoryId: number
+  categoryName: string
+  categoryDescription: string
+  inStock: boolean;
 }

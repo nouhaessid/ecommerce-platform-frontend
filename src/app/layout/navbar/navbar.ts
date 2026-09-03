@@ -5,8 +5,6 @@ import { RouterLink } from "@angular/router";
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { EcommerceStore } from '../../ecommerce-store';
-import { MatFormField, MatPrefix } from '@angular/material/form-field';
-import { MatInput } from '@angular/material/input';
 import { SearchBar } from '../search-bar/search-bar';
 
 

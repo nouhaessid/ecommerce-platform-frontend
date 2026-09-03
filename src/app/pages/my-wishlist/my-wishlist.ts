@@ -5,6 +5,7 @@ import { ProductCard } from '../../components/product-card/product-card';
 import { MatIcon } from '@angular/material/icon';
 import { MatIconButton, MatButton } from '@angular/material/button';
 import { EmptyWishlist } from './empty-wishlist/empty-wishlist';
+import { Navbar } from '../../layout/navbar/navbar';
 
 @Component({
   selector: 'app-my-wishlist',

@@ -7,6 +7,7 @@ import { EcommerceStore } from '../../ecommerce-store';
 import { CurrencyPipe } from '@angular/common';
 import { MatButton } from "@angular/material/button";
 import { CheckoutService } from '../../services/checkoutService';
+import { Navbar } from '../../layout/navbar/navbar';
 
 @Component({
   selector: 'app-checkout',

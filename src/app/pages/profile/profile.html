@@ -1,0 +1,168 @@
+<div class="max-w-3xl mx-auto py-8">
+
+    <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
+
+        <!-- HEADER -->
+
+        <div class="px-6 py-5 border-b border-gray-200">
+            <h1 class="text-2xl font-semibold text-gray-900">
+                My Profile
+            </h1>
+
+            <p class="mt-1 text-sm text-gray-500">
+                Manage your profile information and profile picture.
+            </p>
+        </div>
+
+
+        <!-- PROFILE -->
+
+        <div class="p-6">
+
+            <div class="flex flex-col items-center">
+
+                <!-- PROFILE IMAGE -->
+
+                <div class="relative">
+
+                    @if (imagePreview) {
+
+                        <!-- Newly selected image -->
+
+                        <img
+                            [src]="imagePreview"
+                            alt="Profile picture preview"
+                            class="w-32 h-32 rounded-full object-cover border-4 border-gray-100 shadow-sm"
+                        >
+
+                    } @else if (currentProfileImage()) {
+
+                        <!-- Existing saved image -->
+
+                        <img
+                            [src]="currentProfileImage()"
+                            alt="Profile picture"
+                            class="w-32 h-32 rounded-full object-cover border-4 border-gray-100 shadow-sm"
+                        >
+
+                    } @else {
+
+                        <!-- No profile image -->
+
+                        <div
+                            class="w-32 h-32 rounded-full bg-gray-100
+                                   flex items-center justify-center
+                                   border-4 border-gray-50"
+                        >
+                            <mat-icon
+                                class="!w-16 !h-16 !text-[64px] text-gray-400"
+                            >
+                                person
+                            </mat-icon>
+                        </div>
+
+                    }
+
+                </div>
+
+
+                <!-- UPLOAD -->
+
+                <input
+                    #fileInput
+                    type="file"
+                    accept="image/*"
+                    class="hidden"
+                    (change)="onImageSelected($event)"
+                >
+
+                <button
+                    matButton="outlined"
+                    type="button"
+                    class="mt-4 flex items-center gap-2"
+                    (click)="fileInput.click()"
+                >
+                    <mat-icon>
+                        upload
+                    </mat-icon>
+
+                    Choose Profile Picture
+                </button>
+
+
+                @if (selectedImage) {
+
+                    <p class="mt-2 text-xs text-gray-500">
+                        {{ selectedImage.name }}
+                    </p>
+
+                }
+
+            </div>
+
+
+            <!-- USER INFORMATION -->
+
+            <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-5">
+
+                <div>
+                    <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">
+                        Name
+                    </p>
+
+                    <p class="mt-1 text-sm text-gray-900">
+                        {{ authService.getUserName() }}
+                    </p>
+                </div>
+
+
+                <div>
+                    <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">
+                        Email
+                    </p>
+
+                    <p class="mt-1 text-sm text-gray-900">
+                        {{ authService.getUserEmail() }}
+                    </p>
+                </div>
+
+            </div>
+
+
+            <!-- ACTIONS -->
+
+            <div class="mt-8 flex justify-end gap-3">
+
+                <!-- Cancel -->
+
+                <button
+                    matButton
+                    type="button"
+                    (click)="cancel()"
+                >
+                    Cancel
+                </button>
+
+
+                <!-- Save -->
+
+                <button
+                    matButton="filled"
+                    type="button"
+                    [disabled]="!selectedImage || store.loading()"
+                    (click)="saveProfile()"
+                >
+                    <mat-icon>
+                        {{ store.loading() ? 'hourglass_empty' : 'save' }}
+                    </mat-icon>
+
+                    {{ store.loading() ? 'Saving...' : 'Save Profile Picture' }}
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

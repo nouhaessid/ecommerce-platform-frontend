@@ -5,6 +5,7 @@ import { TeaseWishlist } from './tease-wishlist/tease-wishlist';
 import { SummarizeOrder } from '../../components/summarize-order/summarize-order';
 import { MatButton } from "@angular/material/button";
 import { EcommerceStore } from '../../ecommerce-store';
+import { Navbar } from '../../layout/navbar/navbar';
 
 @Component({
   selector: 'app-view-cart',

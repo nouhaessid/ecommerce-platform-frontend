@@ -1,21 +1,21 @@
 <mat-sidenav-container>
-    <mat-sidenav mode="side" [opened]="store.sidenavOpen()" fixedInViewport
-            [fixedTopGap]="64">
+    <mat-sidenav mode="side" [opened]="store.sidenavOpen()" fixedInViewport [fixedTopGap]="64">
         <div class="p-6">
             <h2 class="text-lg text-gray-900">Categories</h2>
             <mat-nav-list>
                 @for (cat of categories(); track cat) {
-                    <mat-list-item [activated]="cat === category()" class="my-2" [routerLink]="['/products', cat]">
-                        <span matListItemTitle [class]="cat === category() ? '!text-white': null">
-                            {{cat | titlecase }}
+                    <mat-list-item [activated]="cat.name === categoryName()" class="my-2" [routerLink]="['/products', cat.name]">
+                        <span matListItemTitle [class]="cat.name === categoryName() ? '!text-white': null">
+                            {{cat.name | titlecase }}
                         </span>
                     </mat-list-item>
                 }
             </mat-nav-list>
         </div>
     </mat-sidenav>
-    <mat-sidenav-content class="bg-gray-100 p-6 min-h-screen">
-    <h1 class="text-2xl font-bold text-gray-900 mb-1">{{category() | titlecase}}</h1>
+    <mat-sidenav-content class="bg-gray-100 p-6 min-h-screen app-background">
+    
+    <h1 class="text-2xl font-bold text-gray-900 mb-1">{{categoryName() | titlecase}}</h1>
     <p class="text-base text-gray-600 mb-6"> {{store.filtredProducts().length}} products found </p>
 
     <div class="responsive-grid">

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { RouterLink } from "@angular/router";
+import { Navbar } from '../../layout/navbar/navbar';
 
 @Component({
   selector: 'app-order-success',

@@ -1,0 +1,33 @@
+<h2 mat-dialog-title class="flex items-center gap-2">
+    <mat-icon class="text-[var(--mat-sys-error)]">
+        warning
+    </mat-icon>
+
+    {{ data.title }}
+</h2>
+
+<mat-dialog-content>
+    <p class="text-sm text-gray-600">
+        {{ data.message }}
+    </p>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+
+    <button
+        matButton
+        type="button"
+        (click)="cancel()"
+    >
+        Cancel
+    </button>
+
+    <button
+        matButton="filled"
+        type="button"
+        (click)="confirm()"
+    >
+        {{ data.confirmText }}
+    </button>
+
+</mat-dialog-actions>

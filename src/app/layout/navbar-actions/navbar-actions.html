@@ -1,31 +1,103 @@
 <div class="flex items-center gap-2">
-    <button matIconButton routerLink="/wishlist" [matBadge]="store.wishlistCount()" [matBadgeHidden]="store.wishlistCount() === 0">
+
+    <!-- Wishlist -->
+    <button
+        matIconButton
+        class="navbar-favorite-icon-button"
+        routerLink="/wishlist"
+        [matBadge]="store.wishlistCount()"
+        [matBadgeHidden]="store.wishlistCount() === 0"
+    >
         <mat-icon>favorite</mat-icon>
     </button>
 
-    <button matIconButton routerLink="/cart" [matBadge]="store.cartItemsCount()" [matBadgeHidden]="store.cartItemsCount() === 0">
+    <!-- Cart -->
+    <button
+        matIconButton
+        class="navbar-cart-icon-button"
+        routerLink="/cart"
+        [matBadge]="store.cartItemsCount()"
+        [matBadgeHidden]="store.cartItemsCount() === 0"
+    >
         <mat-icon>shopping_cart</mat-icon>
     </button>
 
-    @if (store.user(); as user) {
-        <button matIconButton [matMenuTriggerFor]="userMenu">
-            <img [src]="user.imageUrl" [alt]="user.name" class="w-8 h-8 rounded-full">
+    @if (authService.isLoggedIn()) {
+
+        <!-- Profile -->
+        <button
+            matIconButton
+            class="navbar-profile-icon-button"
+            [matMenuTriggerFor]="userMenu"
+        >
+            @if (store.profileImageUrl()) {
+
+                <img
+                    [src]="store.profileImageUrl()"
+                    alt="Profile"
+                    class="profile-image"
+                >
+
+            } @else {
+
+                <mat-icon>account_circle</mat-icon>
+
+            }
         </button>
 
         <mat-menu #userMenu="matMenu" xPosition="before">
+
             <div class="flex flex-col px-3 min-w-[200px]">
-                <span class="text-sm font-medium">{{user.name}}</span>
-                <span class="text-xs text-gray-500">{{user.email}}</span>
+                <span class="text-sm font-medium">
+                    {{ authService.getUserName() | titlecase }}
+                </span>
+
+                <span class="text-xs text-gray-500">
+                    {{ authService.getUserEmail() }}
+                </span>
             </div>
+
             <mat-divider></mat-divider>
-            <button class="!min-h-[32px]" mat-menu-item (click)="store.signOut()">
+
+            <button mat-menu-item routerLink="/profile">
+                <mat-icon>person</mat-icon>
+                Profile
+            </button>
+
+            <mat-divider></mat-divider>
+
+            @if (authService.isAdmin()) {
+
+                <button mat-menu-item routerLink="/admin">
+                    <mat-icon>admin_panel_settings</mat-icon>
+                    Admin Panel
+                </button>
+
+                <mat-divider></mat-divider>
+
+            }
+
+            <button
+                class="!min-h-[32px]"
+                mat-menu-item
+                (click)="authService.logout()"
+            >
                 <mat-icon>logout</mat-icon>
                 Sign Out
             </button>
-        </mat-menu>
-    } @else{
-    <button matButton (click)="openSignInDialog()">Sign In</button>
 
-    <button matButton="filled" (click)="openSignUpDialog()">Sign Up</button>
+        </mat-menu>
+
+    } @else {
+
+        <button matButton (click)="authService.login()">
+            Sign In
+        </button>
+
+        <button matButton="filled" (click)="signUp()">
+            Sign Up
+        </button>
+
     }
+
 </div>

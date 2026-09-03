@@ -13,14 +13,14 @@
         <p class="text-sm text-gray-600 mb-4 flex-1 leading-relaxed">
             {{product().description}}
         </p>
-        
-        <app-star-rating [rating]="product().rating">
-            ({{ product().reviewCount }})
-        </app-star-rating>
 
-        <div class="text-sm font-medium mb-4">
+        <div class="text-sm font-medium mb-4"
+            [class.text-green-600]="product().inStock" 
+            [class.text-red-600]="!product().inStock"
+        >
             {{product().inStock ? 'In Stock' : 'Out of Stock'}}
         </div>
+        
 
         <div class="flex items-center justify-between mt-auto">
             <span class="text-2xl font-bold text-gray-900">

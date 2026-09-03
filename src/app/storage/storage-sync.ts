@@ -20,17 +20,10 @@ export function saveWishlist(wishlistItems: EcommerceState['wishlistItems']) {
   );
 }
 
-export function saveUser(user: EcommerceState['user']) {
-  if (!isBrowser) return;
 
-  if (user) {
-    localStorage.setItem(
-      'user',
-      JSON.stringify(user)
-    );
-  } else {
-    localStorage.removeItem('user');
-  }
+export function saveCustomerId(customerId: string): void {
+  if (!isBrowser) return;
+  localStorage.setItem('customerId', customerId);
 }
 
 
@@ -52,10 +45,8 @@ export function loadWishlist(): EcommerceState['wishlistItems'] {
 }
 
 
-export function loadUser(): EcommerceState['user'] {
+export function loadCustomerId(): string | undefined  {
   if (!isBrowser) return undefined;
-
-  const data = localStorage.getItem('user');
-
-  return data ? JSON.parse(data) : undefined;
+  return localStorage.getItem('customerId') ?? undefined;
 }
+

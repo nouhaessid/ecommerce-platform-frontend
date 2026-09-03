@@ -23,9 +23,9 @@ export class SearchBar {
     }
 
     if (this.router.url.startsWith('/products/')) {
-      this.router.navigate(['/products', this.store.category()], {
+      this.router.navigate(['/products', this.store.categoryName()], {
       queryParams: {
-        search: query || null
+        search: query
       },
       queryParamsHandling: 'merge'
     });
@@ -41,11 +41,16 @@ export class SearchBar {
   clearSearch(input: HTMLInputElement) {
     input.value = '';
 
-    this.router.navigate(['/products', this.store.category()], {
+    this.router.navigate(['/products', this.store.categoryName()], {
       queryParams: {
         search: null
       },
       queryParamsHandling: 'merge'
     });
+  }
+
+  onSearchInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.store.setSearchQuery(input.value);
   }
 }

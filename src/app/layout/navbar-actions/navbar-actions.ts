@@ -7,31 +7,29 @@ import { EcommerceStore } from '../../ecommerce-store';
 import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu'
 import { MatDivider } from '@angular/material/divider';
 import { MatDialog } from '@angular/material/dialog';
-import { SignInDialog } from '../../components/sign-in-dialog/sign-in-dialog';
-import { SignUpDialog } from '../../components/sign-up-dialog/sign-up-dialog';
+import { AuthService } from '../../auth/auth.service';
+import { TitleCasePipe } from '@angular/common';
+import { CustomerApiService } from '../../api/customer-api.service';
 
 @Component({
   selector: 'app-navbar-actions',
-  imports: [MatButton, MatIconButton, MatIcon, RouterLink, MatBadge, MatMenu, MatMenuItem, MatMenuTrigger, MatDivider],
+  imports: [MatButton, MatIconButton, MatIcon, RouterLink, MatBadge, MatMenu, MatMenuItem, MatMenuTrigger, MatDivider, TitleCasePipe],
   templateUrl: './navbar-actions.html',
   styleUrl: './navbar-actions.scss',
 })
 export class NavbarActions {
 
-  store = inject(EcommerceStore)
+  store = inject(EcommerceStore);
 
-  matDialog = inject(MatDialog)
+  matDialog = inject(MatDialog);
+  authService = inject(AuthService);
+  customerApi = inject(CustomerApiService);
 
-  openSignInDialog(){
-    this.matDialog.open(SignInDialog,{
-      disableClose: true
-    })
+  signUp(): void {
+    this.authService.register();
   }
 
-  openSignUpDialog(){
-    this.matDialog.open(SignUpDialog,{
-      disableClose: true
-    })
+  logout(): void {
+    this.authService.logout();
   }
-  
 }

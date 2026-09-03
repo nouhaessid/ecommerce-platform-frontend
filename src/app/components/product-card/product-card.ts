@@ -5,11 +5,10 @@ import { MatIcon } from "@angular/material/icon";
 import { EcommerceStore } from '../../ecommerce-store';
 import { CurrencyPipe } from '@angular/common';
 import { RouterLink } from "@angular/router";
-import { StarRating } from '../star-rating/star-rating';
 
 @Component({
   selector: 'app-product-card',
-  imports: [MatButton, MatIcon, CurrencyPipe, RouterLink, StarRating],
+  imports: [MatButton, MatIcon, CurrencyPipe, RouterLink],
   templateUrl: './product-card.html',
   styleUrl: './product-card.scss',
 })

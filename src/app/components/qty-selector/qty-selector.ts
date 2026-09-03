@@ -11,4 +11,5 @@ import { MatIcon } from '@angular/material/icon';
 export class QtySelector {
   quantity = input(0);
   qtyUpdated = output<number>(); 
+  maxQuantity = input<number>();
 }

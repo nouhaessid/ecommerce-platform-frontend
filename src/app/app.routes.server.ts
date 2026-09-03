@@ -1,18 +1,27 @@
 import { inject } from '@angular/core';
 import { RenderMode, ServerRoute } from '@angular/ssr';
-import { CategoryApi } from './services/category-api';
+import { CategoryApiService } from './api/category-api.service';
+import { firstValueFrom } from 'rxjs';
 
 export const serverRoutes: ServerRoute[] = [
   {
-    path: 'products/:category',
+    path: 'products/:categoryName',
     renderMode: RenderMode.Prerender,
     
+
     getPrerenderParams: async () => {
-      const catService = inject(CategoryApi)
-      const names = catService.getCategories();
-      return names.map((name) => ({category : name}))
+      const categoryApiService = inject(CategoryApiService);
+
+      const categories = await firstValueFrom(
+        categoryApiService.getCategories()
+      );
+
+      return categories.map(category => ({
+        categoryName: category.name
+      }));
     }
   },
+
   {
     path: 'wishlist',
     renderMode: RenderMode.Client
@@ -27,6 +36,10 @@ export const serverRoutes: ServerRoute[] = [
   },
   {
     path: 'order-success',
+    renderMode: RenderMode.Client
+  },
+  {
+    path: 'admin/**',
     renderMode: RenderMode.Client
   },
   {

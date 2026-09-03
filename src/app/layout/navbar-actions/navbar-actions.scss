@@ -1,0 +1,30 @@
+
+.navbar-profile-icon-button {
+    width: 52px !important;
+    height: 52px !important;
+    padding: 0 !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+
+
+.navbar-profile-icon-button mat-icon {
+    width: 48px !important;
+    height: 48px !important;
+    font-size: 48px !important;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.navbar-profile-icon-button img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+}
