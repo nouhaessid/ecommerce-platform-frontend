@@ -26,7 +26,7 @@ ElectroHub provides a complete shopping experience for customers, together with 
 
 A short walkthrough of the ElectroHub application, including authentication, product browsing, cart and checkout, and administration.
 
-[![ElectroHub Demo](https://i9.ytimg.com/vi_webp/L8GodrK8Dms/mq1.webp?sqp=CICU6NQG-oaymwEmCMACELQB8quKqQMa8AEB-AH-CYACqAWKAgwIABABGFogXyhlMA8=&rs=AOn4CLBlEVpjD0Ilhut7ESWSn7T792qkvg)](https://www.youtube.com/watch?v=L8GodrK8Dms)
+[![ElectroHub Demo](https://i9.ytimg.com/vi_webp/L8GodrK8Dms/mq1.webp?sqp=CJiw9dQG-oaymwEmCMACELQB8quKqQMa8AEB-AH-CYACqAWKAgwIABABGFogXyhlMA8=&rs=AOn4CLCq5c-dr86CaH8aexdED7DX7uhfAA)](https://www.youtube.com/watch?v=L8GodrK8Dms)
 
 ---
 
