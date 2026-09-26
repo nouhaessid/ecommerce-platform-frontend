@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="pinkPurple" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59acb"/>
+      <stop offset="100%" stop-color="#7167ff"/>
+    </linearGradient>
+  </defs>
+
+  <rect
+    width="64"
+    height="64"
+    rx="18"
+    fill="url(#pinkPurple)"
+  />
+
+  <!-- Shopping bag -->
+  <path
+    d="M19 25h26l-2 25H21l-2-25Z"
+    fill="none"
+    stroke="#ffffff"
+    stroke-width="4"
+    stroke-linejoin="round"
+  />
+
+  <!-- Bag handle -->
+  <path
+    d="M26 25v-4a6 6 0 0 1 12 0v4"
+    fill="none"
+    stroke="#ffffff"
+    stroke-width="4"
+    stroke-linecap="round"
+  />
+
+  <!-- E -->
+  <text
+    x="32"
+    y="43"
+    text-anchor="middle"
+    font-family="Arial, sans-serif"
+    font-size="14"
+    font-weight="700"
+    fill="#ffffff"
+  >E</text>
+</svg>
